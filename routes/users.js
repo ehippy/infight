@@ -1,9 +1,12 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+
+  if (!req.signedCookies.slackUser) {
+      res.status(404).send('Not found');
+  }
+  res.send(req.signedCookies.slackUser);
 });
 
 module.exports = router;

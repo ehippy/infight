@@ -20,7 +20,19 @@ router.get('/auth', function(req, res, next) {
             var message = JSON.parse(body);
             console.log(message);
 
+            var slackUser = {
+                id: message.user.id,
+                name: message.user.name,
+                img: message.user.image_48,
 
+                team_id: message.team.id,
+                team_name: message.team.name,
+                team_domain: message.team.domain,
+                team_img: message.team.image_48
+            };
+
+            res.cookie('slackUser',slackUser, { maxAge: 900000, httpOnly: true, signed: true});
+            res.redirect('/');
 
         } else {
             res.send('Slack login failed, try again');
