@@ -1,10 +1,9 @@
-var db = require('./db');
+let db = require('./db');
 
-var team = {};
+let team = {};
 
-team.scaffold = function(id, domain, name, img) {
+team.scaffold = function (domain, name, img) {
     return {
-        id: id,
         domain: domain,
         name: name,
         img: img,
@@ -13,15 +12,15 @@ team.scaffold = function(id, domain, name, img) {
     };
 };
 
-team.get = function(team_id, cb) {
-    db.doc.getItem({TableName: db.TABLE_NAME_TEAMS, Key: {id: team_id}}, function(err, data){
-        cb(err,data);
+team.get = function (team_domain, cb) {
+    db.doc.getItem({TableName: db.TABLE_NAME_TEAMS, Key: {domain: team_domain}}, function (err, data) {
+        cb(err, data.Item);
     });
 };
 
-team.save = function(team, cb) {
-    db.doc.putItem({TableName: db.TABLE_NAME_TEAMS, Item: team}, function(err, data){
-        cb(err,data);
+team.save = function (team, cb) {
+    db.doc.putItem({TableName: db.TABLE_NAME_TEAMS, Item: team}, function (err, data) {
+        cb(err, data);
     });
 };
 
