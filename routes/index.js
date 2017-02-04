@@ -5,5 +5,10 @@ let router = express.Router();
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Team Tanks' });
 });
+/* GET home page. */
+router.get('/logout', function(req, res, next) {
+    res.clearCookie('slackUser');
+    res.redirect('/');
+});
 
 module.exports = router;

@@ -7,7 +7,26 @@
 </head>
 <body>
 
+<div>
+    {{#if user}}
+        <div style="width: 200px; float:right;">
+            <img src="{{user.img}}" style="float:left; border-radius: 6px; border:solid 3px #efefef; margin-right:4px;" />
+            {{user.name}}
+            <a href="/logout" style="font-size: xx-small;">Logout</a>
+        </div>
+    {{else}}
+
+        <div style="width: 200px; float:right;">
+            <a href="https://slack.com/oauth/authorize?scope=identity.basic,identity.team,identity.avatar&client_id=134879189280.135668698324"
+            ><img alt="Sign in with Slack" height="40" width="172" src="https://platform.slack-edge.com/img/sign_in_with_slack.png" srcset="https://platform.slack-edge.com/img/sign_in_with_slack.png 1x, https://platform.slack-edge.com/img/sign_in_with_slack@2x.png 2x" /></a>
+        </div>
+    {{/if}}
+</div>
+
 {{{body}}}
 
 </body>
+
+<script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+
 </html>

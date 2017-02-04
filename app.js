@@ -19,7 +19,7 @@ let app = express();
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
-// uncomment after placing your favicon in /public
+// todo uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -27,9 +27,16 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function (req, res, next) {
+    res.locals.user = req.signedCookies.slackUser;
+
+    next();
+});
+
 app.use('/', index);
 app.use('/slack', slack);
 app.use('/team', team);
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

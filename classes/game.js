@@ -1,67 +1,66 @@
 let db = require('./db');
 let Unit = require('./unit');
 
-let game = {};
 
-game.new = function(team) {
+class Game {
+    constructor(team) {
+        this.team_id = team.id;
+        this.num = new Math.round(Date.now()/1000);
+        this.boardHeight = 10;
+        this.boardWidth = 10;
 
-    let gameState = {
-        team_id: team.id,
-        num: new Math.round(Date.now()/1000),
+        this.actionPointDistributionIntervalSeconds = 60*60*24;
+        this.nextActionPointDistributionTimeStamp = this.num+this.actionPointDistributionIntervalSeconds;
 
-        boardHeight: 10,
-        boardWidth: 10,
+        this.players= [];
+        this.setPlayerStartingPositions(team);
 
-        actionPointDistributionIntervalSeconds: 60*60*24,
-        nextActionPointDistributionTimeStamp: (new Date.now()) + 60*60*24,
+    }
 
-        players: []
+    setPlayerStartingPositions(team) {
+        for (let i = 0; i < team.users.length; i++) {
 
-    };
+            let x, y;
 
-    for (let i=0;i<team.users.length;i++) {
+            for (let ol = 0; ol < this.boardWidth * this.boardHeight; i++) {
 
-        let x, y;
+                x = Math.floor(Math.random() * this.boardWidth);
+                y = Math.floor(Math.random() * this.boardHeight);
 
-        for(let ol = 0;ol<gameState.boardWidth*gameState.boardHeight;i++) {
+                let collision = false;
 
-            x = Math.floor(Math.random()*gameState.boardWidth);
-            y = Math.floor(Math.random()*gameState.boardHeight);
+                for (let pl = 0; pl < this.players.length; pl++) {
+                    let otherP = this.players[pl];
+                    if (x == otherP.x && y == otherP.y) {
+                        collision = true;
+                        break;
+                    }
+                }
 
-            let collision = false;
-
-            for (let pl = 0;pl<gameState.players.length;pl++) {
-                let otherP = gameState.players[pl];
-                if (x == otherP.x && y == otherP.y) {
-                    collision = true;
+                if (!collision) {
                     break;
                 }
             }
 
-            if (!collision) {
-                break;
-            }
+
+            this.players.push(
+                new Unit(team.users[i], x, y)
+            );
         }
-
-
-        gameState.players.push(
-            new Unit(team.users[i], x, y)
-        );
     }
 
-    return gameState;
-};
+    get(team_id, cb) {
+        db.doc.getItem({TableName: db.TABLE_NAME_GAMES, Key: {id: team_id}}, function(err, data){
+            cb(err,data.Item);
+        });
+    };
 
-game.get = function(team_id, cb) {
-    db.doc.getItem({TableName: db.TABLE_NAME_GAMES, Key: {id: team_id}}, function(err, data){
-        cb(err,data.Item);
-    });
-};
+    save(cb) {
+        db.doc.putItem({TableName: db.TABLE_NAME_GAMES, Item: this}, function(err, data){
+            cb(err,data);
+        });
+    };
+}
 
-game.save = function(team, cb) {
-    db.doc.putItem({TableName: db.TABLE_NAME_GAMES, Item: team}, function(err, data){
-        cb(err,data);
-    });
-};
 
-module.exports = game;
+module.exports = Game;
