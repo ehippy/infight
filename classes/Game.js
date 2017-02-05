@@ -3,8 +3,9 @@ let Unit = require('./unit');
 
 
 class Game {
-    constructor(team) {
-        this.domain = team.domain;
+    constructor(teamForGame) {
+        this.domain = teamForGame.domain;
+        this.team = teamForGame;
         this.num = Math.round(Date.now()/1000);
         this.boardHeight = 10;
         this.boardWidth = 10;
@@ -13,7 +14,7 @@ class Game {
         this.nextActionPointDistributionTimeStamp = this.num+this.actionPointDistributionIntervalSeconds;
 
         this.players= [];
-        this.setPlayerStartingPositions(team);
+        this.setPlayerStartingPositions(this.team);
 
     }
 
