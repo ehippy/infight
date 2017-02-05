@@ -1,4 +1,13 @@
 <h1>{{team.name}}</h1>
 <img src="{{team.img}}" />
-<p>Current Games</p>
-<p>Past Games</p>
+<h2>Players</h2>
+{{#each team.users}}
+    <li>{{name}}</li>
+{{/each}}
+
+<h2>Current Game</h2>
+{{#if team.currentGameNum}}
+    Go to current game: <a href="/team/{{team.domain}}/game/{{team.currentGameNum}}">{{team.currentGameNum}}</a>
+{{else}}
+    There isn't a game currently. <a href="/team/{{team.domain}}/startGame/">Start One!</a>
+{{/if}}

@@ -4,8 +4,8 @@ let Unit = require('./unit');
 
 class Game {
     constructor(team) {
-        this.team_id = team.id;
-        this.num = new Math.round(Date.now()/1000);
+        this.domain = team.domain;
+        this.num = Math.round(Date.now()/1000);
         this.boardHeight = 10;
         this.boardWidth = 10;
 
