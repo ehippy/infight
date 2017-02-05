@@ -12,6 +12,9 @@ class Team {
 
     static get(team_domain, cb) {
         db.doc.getItem({TableName: db.TABLE_NAME_TEAMS, Key: {domain: team_domain}}, function (err, data) {
+            if (err) {
+                cb(err, null);
+            }
             let t = new Team();
             for (let p in data.Item) {t[p] = data.Item[p];}
             cb(err, t);

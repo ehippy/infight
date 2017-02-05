@@ -19,6 +19,10 @@ router.get('/auth', function(req, res, next) {
         if (!error && response.statusCode == 200) {
             let message = JSON.parse(body);
 
+            if (!message.ok) {
+                return res.send('Slack login failed, try again');
+            }
+
             let user = {
                 id: message.user.id,
                 name: message.user.name,
@@ -35,13 +39,13 @@ router.get('/auth', function(req, res, next) {
 
             Team.get(user.team_domain, function(err, userTeam) {
                 if (err) {
-                    res.send('Slack login failed, try again');
+                    return res.send('Slack login failed, try again');
                 }
 
                 if (userTeam === undefined || userTeam.domain != user.team_domain) {
                     console.log('Team not found, creating new...');
                     userTeam = new Team(user.team_domain, user.team_name, user.team_img);
-                    userTeam.save(userTeam, function(err, data){
+                    userTeam.save(function(err, data){
                         console.log("Team creation save: ", err, data);
                     });
                 }
@@ -55,7 +59,7 @@ router.get('/auth', function(req, res, next) {
                 }
                 if (!foundUser) {
                     userTeam.users.push(new User(user.id, user.name, user.img, user.team_domain));
-                    userTeam.save(userTeam, function(err, data){
+                    userTeam.save(function(err, data){
                         console.log("Team user-append save: ", err, data);
                     });
                 }
