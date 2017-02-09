@@ -16,8 +16,8 @@ router.get('/:team_domain/game/:game_num', function(req, res, next) {
 });
 
 router.get('/:team_domain/game/:game_num/json', function(req, res, next) {
-    Team.get(req.params.team_domain, function(err, team) {
-        res.send(team);
+    Game.getThemShits(req.params.team_domain, parseInt(req.params.game_num), function(err, game) {
+        res.send(game);
     });
 });
 

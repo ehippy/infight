@@ -50,9 +50,9 @@ class Game {
         }
     }
 
-    get(team_id, cb) {
-        db.doc.getItem({TableName: db.TABLE_NAME_GAMES, Key: {id: team_id}}, function(err, data){
-            cb(err,data.Item);
+    static getThemShits(domain, num, cb) {
+        db.doc.getItem({TableName: db.TABLE_NAME_GAMES, Key: {domain: domain, num: num}}, function(err, data){
+            cb(err, data.Item);
         });
     };
 
