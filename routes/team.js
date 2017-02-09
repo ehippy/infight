@@ -21,6 +21,33 @@ router.get('/:team_domain/game/:game_num/json', function(req, res, next) {
     });
 });
 
+router.get('/:team_domain/game/:game_num/json', function(req, res, next) {
+    Game.getThemShits(req.params.team_domain, parseInt(req.params.game_num), function(err, game) {
+        game.giveAP(function(err, game){
+            res.send(game);
+        });
+    });
+});
+
+router.post('/:team_domain/game/:game_num/move', function(req, res, next) {
+    Game.getThemShits(req.params.team_domain, parseInt(req.params.game_num), function(err, game) {
+
+        if (!req.body.unit || !req.body.unit.user) {
+            return res.status(400).send('Move missing user information');
+        }
+        if (res.locals.user.id != req.body.unit.user.id) {
+            return res.status(400).send('Move user is not logged in');
+        }
+
+        game.move(req.body, function(err, gameAfterMove) {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.send(gameAfterMove);
+        });
+    });
+});
+
 router.get('/:team_domain/fakebro/:name', function(req, res, next) {
     Team.get(req.params.team_domain, function(err, team) {
         team.users.push(new User(Math.random(), req.params.name, 'adf', req.params.team_domain));

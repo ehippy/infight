@@ -7,6 +7,7 @@ class Unit {
         this.ap = 0;
         this.range = 1;
     }
+
 }
 
 module.exports = Unit;
