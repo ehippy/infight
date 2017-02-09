@@ -15,6 +15,12 @@ router.get('/:team_domain/game/:game_num', function(req, res, next) {
     res.render('game', { title: 'Team Tanks' });
 });
 
+router.get('/:team_domain/game/:game_num/json', function(req, res, next) {
+    Team.get(req.params.team_domain, function(err, team) {
+        res.send(team);
+    });
+});
+
 router.get('/:team_domain/fakebro/:name', function(req, res, next) {
     Team.get(req.params.team_domain, function(err, team) {
         team.users.push(new User(Math.random(), req.params.name, 'adf', req.params.team_domain));
