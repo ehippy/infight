@@ -1,4 +1,5 @@
 let db = require('./db');
+let dyna = require('./dynamoose/dynaTeam');
 
 class Team {
     constructor(domain, name, img) {
@@ -10,8 +11,11 @@ class Team {
         this.currentGameNum = null;
     }
 
-    static get(team_domain, cb) {
-        db.doc.getItem({TableName: db.TABLE_NAME_TEAMS, Key: {domain: team_domain}}, function (err, data) {
+    static get(id, cb) {
+
+        dyna.get( {id: id});
+
+        db.doc.getItem({TableName: db.TABLE_NAME_TEAMS, Key: {domain: id}}, function (err, data) {
             if (err) {
                 cb(err, null);
             }

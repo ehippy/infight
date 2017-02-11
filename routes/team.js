@@ -12,7 +12,9 @@ router.get('/:team_domain', function(req, res, next) {
 });
 
 router.get('/:team_domain/game/:game_num', function(req, res, next) {
-    res.render('game', { title: 'Team Tanks' });
+    Game.getThemShits(req.params.team_domain, parseInt(req.params.game_num), function(err, game) {
+        res.render('game', game);
+    });
 });
 
 router.get('/:team_domain/game/:game_num/json', function(req, res, next) {

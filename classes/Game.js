@@ -63,6 +63,10 @@ class Game {
 
     static getThemShits(domain, num, someCB) {
         db.doc.getItem({TableName: db.TABLE_NAME_GAMES, Key: {domain: domain, num: num}}, function(err, data){
+            console.log('got one!', data);
+            if (null == data) {
+                return someCB(err);
+            }
             someCB(err, data.Item);
         });
     };

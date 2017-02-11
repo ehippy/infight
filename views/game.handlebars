@@ -1,6 +1,16 @@
-GAME!
 
-Board
 
-Jury
+{{num}}!<br />
 
+{{#each players}}
+    <div style="width: 200px; float: left; margin: 20px; border: solid 1px #efefef; border-radius: 1px; padding: 8px;">
+        <img src="{{user.img}}" />
+        <strong>{{user.name}}</strong><Br />
+        HP: {{hp}}<br />
+        AP: {{ap}}<br />
+        Range: {{range}}<br /><br />
+
+        X: {{x}}<br />
+        Y: {{y}}<br />
+    </div>
+{{/each}}
