@@ -2,6 +2,8 @@ let AWS = require("aws-sdk");
 let DOC = require("dynamodb-doc");
 
 AWS.config.update({
+    accessKeyId: 'b',
+    secretAccessKey: 's',
     region: "us-east-1",
     endpoint: "http://localhost:8080"
 });
