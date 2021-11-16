@@ -9,7 +9,7 @@
     "aws-sdk": "^2.814.0",
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
-    "debug": "~2.2.0",
+    "debug": "~2.6.9",
     "dynamodb-doc": "^1.0.0",
     "dynamoose": "^0.7.0",
     "express": "^4.17.1",
